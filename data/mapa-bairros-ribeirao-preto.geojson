@@ -1,0 +1,90 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "NOME": "CENTRO" },
+      "geometry": { "type": "Polygon", "coordinates": [ [ [ -47.810, -21.178 ], [ -47.808, -21.179 ], [ -47.807, -21.177 ], [-47.809, -21.176], [ -47.810, -21.178 ] ] ] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "NOME": "HIGIENÓPOLIS" },
+      "geometry": { "type": "Polygon", "coordinates": [ [ [ -47.795, -21.198 ], [ -47.793, -21.199 ], [ -47.792, -21.197 ], [-47.794, -21.196], [ -47.795, -21.198 ] ] ] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "NOME": "JARDIM SUMARÉ" },
+      "geometry": { "type": "Polygon", "coordinates": [ [ [ -47.800, -21.195 ], [ -47.798, -21.196 ], [ -47.797, -21.194 ], [-47.799, -21.193], [ -47.800, -21.195 ] ] ] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "NOME": "VILA SEIXAS" },
+      "geometry": { "type": "Polygon", "coordinates": [ [ [ -47.805, -21.185 ], [ -47.803, -21.186 ], [ -47.802, -21.184 ], [-47.804, -21.183], [ -47.805, -21.185 ] ] ] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "NOME": "CAMPOS ELÍSEOS" },
+      "geometry": { "type": "Polygon", "coordinates": [ [ [ -47.825, -21.168 ], [ -47.823, -21.169 ], [ -47.822, -21.167 ], [-47.824, -21.166], [ -47.825, -21.168 ] ] ] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "NOME": "JARDIM PAULISTA" },
+      "geometry": { "type": "Polygon", "coordinates": [ [ [ -47.795, -21.190 ], [ -47.793, -21.191 ], [ -47.792, -21.189 ], [-47.794, -21.188], [ -47.795, -21.190 ] ] ] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "NOME": "JARDIM INDEPENDÊNCIA" },
+      "geometry": { "type": "Polygon", "coordinates": [ [ [ -47.788, -21.188 ], [ -47.786, -21.189 ], [ -47.785, -21.187 ], [-47.787, -21.186], [ -47.788, -21.188 ] ] ] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "NOME": "RIBEIRÂNIA" },
+      "geometry": { "type": "Polygon", "coordinates": [ [ [ -47.778, -21.201 ], [ -47.776, -21.202 ], [ -47.775, -21.200 ], [-47.777, -21.199], [ -47.778, -21.201 ] ] ] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "NOME": "NOVA RIBEIRÂNIA" },
+      "geometry": { "type": "Polygon", "coordinates": [ [ [ -47.765, -21.195 ], [ -47.763, -21.196 ], [ -47.762, -21.194 ], [-47.764, -21.193], [ -47.765, -21.195 ] ] ] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "NOME": "IPIRANGA" },
+      "geometry": { "type": "Polygon", "coordinates": [ [ [ -47.834, -21.155 ], [ -47.832, -21.156 ], [ -47.831, -21.154 ], [-47.833, -21.153], [ -47.834, -21.155 ] ] ] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "NOME": "VILA VIRGÍNIA" },
+      "geometry": { "type": "Polygon", "coordinates": [ [ [ -47.830, -21.192 ], [ -47.828, -21.193 ], [ -47.827, -21.191 ], [-47.829, -21.190], [ -47.830, -21.192 ] ] ] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "NOME": "SUMAREZINHO" },
+      "geometry": { "type": "Polygon", "coordinates": [ [ [ -47.840, -21.175 ], [ -47.838, -21.176 ], [ -47.837, -21.174 ], [-47.839, -21.173], [ -47.840, -21.175 ] ] ] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "NOME": "PARQUE RIBEIRÃO PRETO" },
+      "geometry": { "type": "Polygon", "coordinates": [ [ [ -47.850, -21.220 ], [ -47.848, -21.221 ], [ -47.847, -21.219 ], [-47.849, -21.218], [ -47.850, -21.220 ] ] ] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "NOME": "CITY RIBEIRÃO" },
+      "geometry": { "type": "Polygon", "coordinates": [ [ [ -47.785, -21.215 ], [ -47.783, -21.216 ], [ -47.782, -21.214 ], [-47.784, -21.213], [ -47.785, -21.215 ] ] ] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "NOME": "JARDIM BOTÂNICO" },
+      "geometry": { "type": "Polygon", "coordinates": [ [ [ -47.780, -21.225 ], [ -47.778, -21.226 ], [ -47.777, -21.224 ], [-47.779, -21.223], [ -47.780, -21.225 ] ] ] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "NOME": "BOSQUE DAS JURUTIS" },
+      "geometry": { "type": "Polygon", "coordinates": [ [ [ -47.770, -21.230 ], [ -47.768, -21.231 ], [ -47.767, -21.229 ], [-47.769, -21.228], [ -47.770, -21.230 ] ] ] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "NOME": "JARDIM CANADÁ" },
+      "geometry": { "type": "Polygon", "coordinates": [ [ [ -47.760, -21.185 ], [ -47.758, -21.186 ], [ -47.757, -21.184 ], [-47.759, -21.183], [ -47.760, -21.185 ] ] ] }
+    }
+  ]
+}
