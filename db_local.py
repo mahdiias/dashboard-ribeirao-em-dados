@@ -9,8 +9,8 @@ DB_PATH = os.path.join(DATA_DIR, DB_FILE)
 
 def criar_e_popular_banco():
     """
-    Cria e popula o banco de dados SQLite com todas as tabelas necessárias
-    para o dashboard, incluindo os dados para o mapa.
+    Cria e popula o banco de dados SQLite com dados tratados de 2020-2024,
+    incluindo dados gerais de óbitos e a simulação de dados socioeconômicos por macrorregião.
     """
     os.makedirs(DATA_DIR, exist_ok=True)
     if os.path.exists(DB_PATH):
@@ -19,60 +19,80 @@ def criar_e_popular_banco():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
-    # Tabela 1: Território
-    cursor.execute("CREATE TABLE territorio (id INTEGER PRIMARY KEY, indicador TEXT, valor REAL, unidade TEXT)")
-    dados_territorio = [('Área da unidade territorial', 650.955, 'km²'), ('Densidade demográfica', 1073.32, 'hab/km²')]
-    cursor.executemany("INSERT INTO territorio (indicador, valor, unidade) VALUES (?, ?, ?)", dados_territorio)
-
-    # Tabela 2: Demografia
-    cursor.execute("CREATE TABLE demografia (id INTEGER PRIMARY KEY, raca TEXT, sexo TEXT, populacao INTEGER)")
-    dados_demografia = [
-        ('Branca', 'Masculino', 206458), ('Branca', 'Feminino', 238150), ('Preta', 'Masculino', 28034), 
-        ('Preta', 'Feminino', 28167), ('Parda', 'Masculino', 94952), ('Parda', 'Feminino', 96741),
-        ('Amarela', 'Masculino', 2581), ('Amarela', 'Feminino', 2917), ('Indígena', 'Masculino', 269), ('Indígena', 'Feminino', 325)
+    # --- Tabela 1: DADOS GERAIS DO MUNICÍPIO ---
+    cursor.execute("""
+    CREATE TABLE dados_municipio (
+        indicador TEXT UNIQUE, valor REAL, unidade TEXT
+    )""")
+    # Fonte: dados gerais ribeirão preto.xlsx e PDF
+    dados_gerais = [
+        ('População Censo 2022', 698642, 'pessoas'),
+        ('População Estimada 2025', 731639, 'pessoas'),
+        ('Área Territorial', 650.916, 'km²'),
+        ('Densidade Demográfica 2022', 1073.32, 'hab/km²'),
+        ('PIB per capita 2021', 55484.91, 'R$')
     ]
-    cursor.executemany("INSERT INTO demografia (raca, sexo, populacao) VALUES (?, ?, ?)", dados_demografia)
+    cursor.executemany("INSERT INTO dados_municipio (indicador, valor, unidade) VALUES (?, ?, ?)", dados_gerais)
 
-    # Tabela 3: Saneamento
-    cursor.execute("CREATE TABLE saneamento (id INTEGER PRIMARY KEY, servico TEXT, tipo TEXT, domicilios INTEGER)")
-    dados_saneamento = [
-        ('Esgotamento', 'Rede geral, pluvial ou fossa ligada à rede', 261309), ('Esgotamento', 'Fossa séptica ou fossa filtro não ligada à rede', 2013),
-        ('Esgotamento', 'Fossa rudimentar ou buraco', 2042), ('Esgotamento', 'Vala', 74), ('Esgotamento', 'Rio, lago, córrego ou mar', 336), ('Esgotamento', 'Outra forma', 130),
-        ('Lixo', 'Coletado', 265445), ('Lixo', 'Queimado na propriedade', 192), ('Lixo', 'Enterrado na propriedade', 15),
-        ('Lixo', 'Jogado em terreno baldio, encosta ou área pública', 118), ('Lixo', 'Outro destino', 165), ('Banheiros', 'Sim, um banheiro', 166839),
-        ('Banheiros', 'Sim, dois banheiros', 86712), ('Banheiros', 'Sim, três ou mais banheiros', 11236), ('Banheiros', 'Não', 543)
+    # --- Tabela 2: CASOS DE DENGUE POR ANO E MÊS (2020-2024) ---
+    cursor.execute("CREATE TABLE casos_dengue_mensal (ano INTEGER, mes INTEGER, casos INTEGER)")
+    dados_mensais = [
+        (2020, 1, 3043), (2020, 2, 6860), (2020, 3, 5153), (2020, 4, 1929), (2020, 5, 873), (2020, 6, 195), (2020, 7, 65), (2020, 8, 25), (2020, 9, 20), (2020, 10, 12), (2020, 11, 16), (2020, 12, 9),
+        (2021, 1, 42), (2021, 2, 55), (2021, 3, 65), (2021, 4, 109), (2021, 5, 77), (2021, 6, 25), (2021, 7, 19), (2021, 8, 12), (2021, 9, 10), (2021, 10, 16), (2021, 11, 21), (2021, 12, 30),
+        (2022, 1, 68), (2022, 2, 222), (2022, 3, 1103), (2022, 4, 2692), (2022, 5, 2415), (2022, 6, 948), (2022, 7, 282), (2022, 8, 154), (2022, 9, 110), (2022, 10, 100), (2022, 11, 90), (2022, 12, 100),
+        (2023, 1, 471), (2023, 2, 991), (2023, 3, 2686), (2023, 4, 3885), (2023, 5, 2694), (2023, 6, 1140), (2023, 7, 439), (2023, 8, 230), (2023, 9, 185), (2023, 10, 198), (2023, 11, 245), (2023, 12, 142),
+        (2024, 1, 1046), (2024, 2, 4821), (2024, 3, 15438), (2024, 4, 16999), (2024, 5, 8227)
     ]
-    cursor.executemany("INSERT INTO saneamento (servico, tipo, domicilios) VALUES (?, ?, ?)", dados_saneamento)
+    cursor.executemany("INSERT INTO casos_dengue_mensal (ano, mes, casos) VALUES (?, ?, ?)", dados_mensais)
 
-    # Tabela 4: Pobreza e Desigualdade
-    cursor.execute("CREATE TABLE pobreza_desigualdade (id INTEGER PRIMARY KEY, indicador TEXT UNIQUE, media REAL, limite_inferior REAL, limite_superior REAL)")
-    dados_pobreza = [
-        ('Incidência da pobreza', 11.75, 8.16, 15.35), ('Incidência da pobreza subjetiva', 8.77, 7.82, 9.72), ('Índice de Gini', 0.45, 0.43, 0.47)
+    # --- Tabela 3: PERFIL ANUAL DA DENGUE (2020-2024) ---
+    cursor.execute("""
+    CREATE TABLE perfil_dengue_anual (
+        ano INTEGER UNIQUE, casos_total INTEGER, casos_masculino INTEGER, 
+        casos_feminino INTEGER, curados INTEGER, obitos_dengue INTEGER
+    )""")
+    dados_perfil = [
+        (2020, 18200, 8273, 9896, 17395, 10), (2021, 481, 222, 259, 345, 1),
+        (2022, 8284, 3892, 4391, 7586, 2), (2023, 13306, 6279, 7023, 12413, 10),
+        (2024, 46531, 21038, 25483, 44246, 32)
     ]
-    cursor.executemany("INSERT INTO pobreza_desigualdade (indicador, media, limite_inferior, limite_superior) VALUES (?, ?, ?, ?)", dados_pobreza)
-
-    # Tabela 5: Causas de Mortalidade
-    cursor.execute("CREATE TABLE mortalidade_causas (id INTEGER PRIMARY KEY, ano INTEGER, causa TEXT, obitos INTEGER)")
-    dados_mortalidade_causas = [
-        (2017, 'Neoplasias (tumores)', 906), (2018, 'Neoplasias (tumores)', 913), (2019, 'Neoplasias (tumores)', 911), (2020, 'Neoplasias (tumores)', 900), (2021, 'Neoplasias (tumores)', 900), (2022, 'Neoplasias (tumores)', 956),
-        (2017, 'Doenças do aparelho circulatório', 1285), (2018, 'Doenças do aparelho circulatório', 1285), (2019, 'Doenças do aparelho circulatório', 1171), (2020, 'Doenças do aparelho circulatório', 1258), (2021, 'Doenças do aparelho circulatório', 1270), (2022, 'Doenças do aparelho circulatório', 1457)
-    ]
-    cursor.executemany("INSERT INTO mortalidade_causas (ano, causa, obitos) VALUES (?, ?, ?)", dados_mortalidade_causas)
+    cursor.executemany("INSERT INTO perfil_dengue_anual (ano, casos_total, casos_masculino, casos_feminino, curados, obitos_dengue) VALUES (?, ?, ?, ?, ?, ?)", dados_perfil)
     
-    # Tabela 6: Dados por Bairro (para o mapa)
-    cursor.execute("CREATE TABLE dados_bairros (id INTEGER PRIMARY KEY, nome TEXT UNIQUE, indice_risco INTEGER, populacao INTEGER)")
-    bairros_no_mapa = [
-        "CENTRO", "HIGIENÓPOLIS", "JARDIM SUMARÉ", "VILA SEIXAS", "CAMPOS ELÍSEOS", "JARDIM PAULISTA", "JARDIM INDEPENDÊNCIA", 
-        "RIBEIRÂNIA", "NOVA RIBEIRÂNIA", "IPIRANGA", "VILA VIRGÍNIA", "SUMAREZINHO", "PARQUE RIBEIRÃO PRETO", "CITY RIBEIRÃO",
-        "JARDIM BOTÂNICO", "BOSQUE DAS JURUTIS", "JARDIM CANADÁ"
+    # --- Tabela 4: ÓBITOS GERAIS DO MUNICÍPIO (2020-2022) ---
+    cursor.execute("CREATE TABLE obitos_gerais_anual (ano INTEGER UNIQUE, obitos_total INTEGER)")
+    # Fonte: Dados_ribeirao_preto.xlsx - Mortalidade.csv
+    dados_obitos_gerais = [(2020, 5484), (2021, 6555), (2022, 5499)]
+    cursor.executemany("INSERT INTO obitos_gerais_anual (ano, obitos_total) VALUES (?, ?)", dados_obitos_gerais)
+
+    # --- Tabela 5: DADOS SOCIOECONÔMICOS E DE RISCO POR REGIÃO (SIMULADO) ---
+    cursor.execute("""
+    CREATE TABLE regioes_dados (
+        nome_regiao TEXT UNIQUE, populacao INTEGER, densidade_pop REAL, 
+        renda_media REAL, risco_socioambiental REAL, latitude REAL, longitude REAL
+    )""")
+    regioes = [
+        ("Norte", 150000, 8500.5, 1800.75, 0.8, -21.14, -47.82),
+        ("Sudeste", 120000, 6500.8, 4200.90, 0.3, -21.18, -47.78),
+        ("Sul", 100000, 4500.1, 6500.00, 0.1, -21.22, -47.80),
+        ("Centro-Oeste", 180000, 7800.7, 2300.10, 0.7, -21.18, -47.85),
+        ("Nordeste", 100000, 9500.0, 2100.00, 0.6, -21.16, -47.79)
     ]
-    dados_para_mapa = [(bairro, random.randint(10, 100), random.randint(5000, 40000)) for bairro in bairros_no_mapa]
-    cursor.executemany("INSERT INTO dados_bairros (nome, indice_risco, populacao) VALUES (?, ?, ?)", dados_para_mapa)
-    
+    cursor.executemany("INSERT INTO regioes_dados (nome_regiao, populacao, densidade_pop, renda_media, risco_socioambiental, latitude, longitude) VALUES (?, ?, ?, ?, ?, ?, ?)", regioes)
+
+    # --- Tabela 6: CASOS DE DENGUE POR REGIÃO E ANO (2020-2024) ---
+    cursor.execute("CREATE TABLE casos_dengue_regiao_anual (ano INTEGER, nome_regiao TEXT, casos INTEGER)")
+    dados_regiao = [
+        (2020, 'Norte', 1), (2021, 'Norte', 2), (2022, 'Norte', 1), (2023, 'Norte', 4), (2024, 'Norte', 3),
+        (2020, 'Nordeste', 1), (2021, 'Nordeste', 0), (2022, 'Nordeste', 5), (2023, 'Nordeste', 5), (2024, 'Nordeste', 11),
+        (2020, 'Sudeste', 18189), (2021, 'Sudeste', 475), (2022, 'Sudeste', 8267), (2023, 'Sudeste', 13280), (2024, 'Sudeste', 46482),
+        (2020, 'Sul', 3), (2021, 'Sul', 1), (2022, 'Sul', 5), (2023, 'Sul', 10), (2024, 'Sul', 17),
+        (2020, 'Centro-Oeste', 6), (2021, 'Centro-Oeste', 3), (2022, 'Centro-Oeste', 6), (2023, 'Centro-Oeste', 7), (2024, 'Centro-Oeste', 18)
+    ]
+    cursor.executemany("INSERT INTO casos_dengue_regiao_anual (ano, nome_regiao, casos) VALUES (?, ? ,?)", dados_regiao)
+
+    print("Todas as tabelas foram criadas e populadas com sucesso.")
     conn.commit()
     conn.close()
-    
-    print(f"\nSUCESSO! O banco de dados '{DB_FILE}' foi criado com todas as tabelas na pasta '{DATA_DIR}/'.")
 
 if __name__ == '__main__':
     criar_e_popular_banco()
