@@ -94,9 +94,9 @@ if ano_selecionado == "Todos os Anos":
     obitos_gerais_filtrado = df_obitos_gerais['obitos_total'].sum()
 else:
     periodo_titulo = str(ano_selecionado)
-    df_perfil_filtrado = df_perfil[df_perfil['ano'] == ano_selecionado]
-    df_mensal_filtrado = df_mensal[df_mensal['ano'] == ano_selecionado]
-    df_regioes_filtrado = df_regioes[df_regioes['ano'] == ano_selecionado]
+    df_perfil_filtrado = df_perfil[df_perfil['ano'] == ano_selecionado].copy()
+    df_mensal_filtrado = df_mensal[df_mensal['ano'] == ano_selecionado].copy()
+    df_regioes_filtrado = df_regioes[df_regioes['ano'] == ano_selecionado].copy()
     # Tratamento seguro para pegar o valor de óbitos gerais
     obitos_ano_df = df_obitos_gerais[df_obitos_gerais['ano'] == ano_selecionado]
     obitos_gerais_filtrado = obitos_ano_df['obitos_total'].iloc[0] if not obitos_ano_df.empty else "N/A"
@@ -183,7 +183,7 @@ with tabs[tab_offset]:
     
     df_regioes_filtrado['obitos_estimados'] = (total_obitos_dengue * (df_regioes_filtrado['casos'] / total_casos)).clip(lower=0).round() if total_casos > 0 else 0
 
-    fig_map = px.scatter_mapbox(df_regioes_filtrado, 
+    fig_map = px.scatter_map(df_regioes_filtrado, 
         lat="latitude", lon="longitude",
         size="casos",         # Tamanho da bolha pelo número de casos
         color="obitos_estimados",  # Cor da bolha pelo número de óbitos
@@ -192,7 +192,7 @@ with tabs[tab_offset]:
         color_continuous_scale=px.colors.sequential.Reds,
         size_max=50,
         zoom=10.5,
-        mapbox_style="carto-positron"
+        map_style="carto-positron"
     )
     fig_map.update_layout(margin={"r":0,"t":40,"l":0,"b":0}, legend_title_text='Óbitos')
     st.plotly_chart(fig_map, use_container_width=True)
