@@ -76,12 +76,13 @@ def criar_e_popular_banco():
         renda_media REAL, risco_socioambiental REAL, latitude REAL, longitude REAL
     )""")
     regioes = [
-        ("Norte", 150000, 8500.5, 1800.75, 0.8, -21.14, -47.82),
-        ("Sudeste", 120000, 6500.8, 4200.90, 0.3, -21.18, -47.78),
-        ("Sul", 100000, 4500.1, 6500.00, 0.1, -21.22, -47.80),
-        ("Centro-Oeste", 180000, 7800.7, 2300.10, 0.7, -21.18, -47.85),
-        ("Nordeste", 100000, 9500.0, 2100.00, 0.6, -21.16, -47.79)
+        ('Norte', 150000, 8500.5, 1800.75, 0.8, -21.14, -47.82),
+        ('Leste', 120000, 6500.8, 4200.90, 0.3, -21.18, -47.78),
+        ('Sul', 100000, 4500.1, 6500.00, 0.1, -21.22, -47.80),
+        ('Oeste', 180000, 7800.7, 2300.10, 0.7, -21.18, -47.85),
+        ('Centro', 100000, 9500.0, 2100.00, 0.6, -21.16, -47.79)
     ]
+    # Alteração de nomenclatura de regiões: Sudeste -> Leste ; Centro-Oeste -> Oeste ; Nordeste -> Centro
     cursor.executemany("INSERT INTO regioes_dados (nome_regiao, populacao, densidade_pop, renda_media, risco_socioambiental, latitude, longitude) VALUES (?, ?, ?, ?, ?, ?, ?)", regioes)
 
 
@@ -89,10 +90,10 @@ def criar_e_popular_banco():
     cursor.execute("CREATE TABLE casos_dengue_regiao_anual (ano INTEGER, nome_regiao TEXT, casos INTEGER)")
     dados_regiao = [
         (2020, 'Norte', 1), (2021, 'Norte', 2), (2022, 'Norte', 1), (2023, 'Norte', 4), (2024, 'Norte', 3),
-        (2020, 'Nordeste', 1), (2021, 'Nordeste', 0), (2022, 'Nordeste', 5), (2023, 'Nordeste', 5), (2024, 'Nordeste', 11),
-        (2020, 'Sudeste', 18189), (2021, 'Sudeste', 475), (2022, 'Sudeste', 8267), (2023, 'Sudeste', 13280), (2024, 'Sudeste', 46482),
+        (2020, 'Leste', 18189), (2021, 'Leste', 475), (2022, 'Leste', 8267), (2023, 'Leste', 13280), (2024, 'Leste', 46482),
         (2020, 'Sul', 3), (2021, 'Sul', 1), (2022, 'Sul', 5), (2023, 'Sul', 10), (2024, 'Sul', 17),
-        (2020, 'Centro-Oeste', 6), (2021, 'Centro-Oeste', 3), (2022, 'Centro-Oeste', 6), (2023, 'Centro-Oeste', 7), (2024, 'Centro-Oeste', 18)
+        (2020, 'Oeste', 6), (2021, 'Oeste', 3), (2022, 'Oeste', 6), (2023, 'Oeste', 7), (2024, 'Oeste', 18),
+        (2020, 'Centro', 1), (2021, 'Centro', 0), (2022, 'Centro', 5), (2023, 'Centro', 5), (2024, 'Centro', 11)
     ]
     cursor.executemany("INSERT INTO casos_dengue_regiao_anual (ano, nome_regiao, casos) VALUES (?, ? ,?)", dados_regiao)
 
