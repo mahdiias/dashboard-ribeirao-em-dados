@@ -92,11 +92,11 @@ def criar_e_popular_banco():
     # ---------------------------------------------------------
     cursor.execute("CREATE TABLE regioes_geometria (nome_regiao TEXT UNIQUE, latitude REAL, longitude REAL)")
     regioes_geo = [
-        ('Norte', -21.14, -47.82),
-        ('Leste', -21.18, -47.78),
-        ('Sul', -21.22, -47.80),
-        ('Oeste', -21.18, -47.85),
-        ('Centro', -21.16, -47.79)
+        ('Norte', -21.128794, -47.798842),
+        ('Leste', -21.184219, -47.757172),
+        ('Sul', -21.219751, -47.802107),
+        ('Oeste', -21.174825, -47.834542),
+        ('Centro', -21.180012, -47.812378)
     ]
     cursor.executemany("INSERT INTO regioes_geometria VALUES (?, ?, ?)", regioes_geo)
 
