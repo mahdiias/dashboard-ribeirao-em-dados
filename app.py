@@ -86,7 +86,7 @@ anos_disponiveis = ["Todos os Anos"] + sorted(df_regioes['ano'].unique(), revers
 ano_selecionado = st.sidebar.selectbox("Selecione o ano de análise", options=anos_disponiveis)
 
 # define as abas de navegacao
-tabs_list_base = ["🗺️ Análise Geográfica", "📈 Análise Temporal e de Perfil", "🔬 Análise de Correlação"]
+tabs_list_base = ["🗺️ Análise Geográfica", "📈 Análise Temporal e de Perfil", "📈 Análise Temporal de Óbitos", "🔬 Análise de Correlação"]
 tabs_list_final = tabs_list_base.copy()
 # se selecionar todos os anos adiciona a aba de resumo
 if ano_selecionado == "Todos os Anos":
@@ -323,6 +323,32 @@ elif pagina_selecionada == "📈 Análise Temporal e de Perfil":
             st.plotly_chart(fig_age, use_container_width=True)
     with c_outcome:
         st.plotly_chart(plot_desfechos(), use_container_width=True)
+
+# pagina de analise temporal de óbitos
+elif pagina_selecionada == "📈 Análise Temporal de Óbitos":
+    st.header("Análise Temporal de Óbitos")
+    st.markdown("""
+    <div class="explanation-box">
+        <b>Sobre esta aba:</b><br>
+        Apresenta uma visão de óbitos de todo o período. Útil para gestores entenderem a tendência histórica.
+    </div>
+    """, unsafe_allow_html=True)
+    st.subheader("Histórico Anual de Óbitos por Dengue")
+    df_hist = df_perfil.groupby('ano')['obitos_dengue'].sum().reset_index()
+    fig = px.bar(df_hist, x='ano', y='obitos_dengue', text_auto=True)
+    st.plotly_chart(fig, use_container_width=True)
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.subheader("Histórico Anual de Óbitos por Outras Causas")
+        df_hist = df_perfil.groupby('ano')['obitos_outras_causas'].sum().reset_index()
+        fig = px.bar(df_hist, x='ano', y='obitos_outras_causas', text_auto=True)
+        st.plotly_chart(fig, use_container_width=True)
+    with col2:
+        st.subheader("Histórico Anual de Óbitos em Investigação")
+        df_hist = df_perfil.groupby('ano')['obitos_investigacao'].sum().reset_index()
+        fig = px.bar(df_hist, x='ano', y='obitos_investigacao', text_auto=True)
+        st.plotly_chart(fig, use_container_width=True)
 
 # pagina de correlacao (estudo ecologico)
 elif pagina_selecionada == "🔬 Análise de Correlação":
