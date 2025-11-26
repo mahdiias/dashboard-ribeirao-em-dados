@@ -452,7 +452,7 @@ elif pagina_selecionada == "🔬 Análise de Correlação":
         'densidade_pop': 'Densidade Pop.'
     }
     
-    st.subheader("1. Matriz de Correlação (Visão Geral)")
+    st.subheader("1. Matriz de Correlação (Visão Geral) (2020 - 2024)")
     # calcula a correlacao e renomeia colunas
     df_corr = df_regioes_filtrado.copy()
     
@@ -466,7 +466,7 @@ elif pagina_selecionada == "🔬 Análise de Correlação":
 
     st.divider()
     
-    st.subheader("2. Detalhe da Regressão (Teste de Hipótese)")
+    st.subheader("2. Detalhe da Regressão (Teste de Hipótese) (2020 - 2024)")
     eixo_x_selecionado = st.selectbox("Escolha o Fator Social (Eixo X):", options=['renda_per_capita', 'populacao_negra_pct', 'anos_de_estudo', 'densidade_pop'], format_func=lambda x: cols_analise[x])
     
     if len(df_regioes_filtrado) > 1:
@@ -486,7 +486,7 @@ elif pagina_selecionada == "🔬 Análise de Correlação":
         st.warning("Dados insuficientes para gerar regressão.")
 
     st.markdown("---")
-    st.subheader("Tabela de Dados por Região")
+    st.subheader("Tabela de Dados por Região (2020 - 2024)")
     df_ranking = df_regioes_filtrado[['nome_regiao', 'taxa_incidencia', eixo_x_selecionado]].sort_values('taxa_incidencia', ascending=False)
     df_ranking.columns = ['Região', 'Incidência / 100 mil hab.', cols_analise[eixo_x_selecionado]]
     st.dataframe(df_ranking, use_container_width=True, hide_index=True, column_config={"Incidência / 100 mil hab.": st.column_config.NumberColumn(format="%.0f")})
