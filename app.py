@@ -523,6 +523,10 @@ elif pagina_selecionada == "🔬 Análise de Correlação":
     st.info("Nota: 'Incidência' é o cálculo de casos por 100 mil habitantes. 'Total de Casos' é o número absoluto de notificações.")
     st.subheader("Tabela de Dados por Região (2020 - 2024)")
     df_ranking = df_regioes_filtrado[['nome_regiao','casos', 'taxa_incidencia', eixo_x_selecionado]].sort_values('taxa_incidencia', ascending=False)
-    df_ranking.columns = ['Região','Total de Casos', 'Incidência / 100 mil hab.', cols_analise[eixo_x_selecionado]]
-    df_ranking['Incidência / 100 mil hab.'] = df_ranking['Incidência / 100 mil hab.'].round(0).astype('Int64')
-    st.dataframe(df_ranking, width='stretch', hide_index=True, column_config={ "Incidência / 100k": st.column_config.NumberColumn(format="%.0f"), "Total de Casos": st.column_config.NumberColumn(format="%d")})
+    df_ranking.columns = ['Região', 'Total de Casos', 'Incidência / 100k', cols_analise[eixo_x_selecionado]]
+    df_ranking['Incidência / 100k'] = df_ranking['Incidência / 100k'].round(0).astype('Int64')
+    st.dataframe(df_ranking, use_container_width=True, hide_index=True, column_config={
+            "Incidência / 100k": st.column_config.NumberColumn(format="%.0f"),
+            "Total de Casos": st.column_config.NumberColumn(format="%d")
+        }
+    )
