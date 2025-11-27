@@ -378,6 +378,11 @@ Pico em 2024 (46.531 casos):** Impulsionado pela **reintrodução de novos sorot
 elif pagina_selecionada == "🗺️ Análise Geográfica":
     st.markdown("---")
     st.header(f"🗺️ Análise Geográfica por Regiões ({periodo_titulo})")
+    st.info(
+    "Este mapa representa **pontos geográficos aproximados das regiões**, "
+    "e o tamanho da bolha indica a quantidade de casos. "
+    "As cores representam o indicador selecionado no menu acima."
+)
     
     # restaurar explicação detalhada do primeiro código
     st.markdown("""
@@ -417,6 +422,7 @@ elif pagina_selecionada == "🗺️ Análise Geográfica":
     )
     # garante tamanho minimo da bolha para nao sumir
     fig_map.update_traces(marker=dict(sizemin=8))
+    fig_map.update_layout(uirevision=True) # para garantir que o mapa não “trave” depois do zoom 
     st.plotly_chart(fig_map, width='stretch')
 
 # -----------------------------------------
